@@ -49,7 +49,7 @@ private void startCropImage() {
     intent.setOutputSize(640,480);
 
     // set the max crop window size (Optional) 
-    intent.setOutputSize(800,600);
+    intent.setMaxOutputSize(800,600);
 
     // Set a fixed crop window's width/height aspect (Optional) 
     intent.setAspect(3,2);
