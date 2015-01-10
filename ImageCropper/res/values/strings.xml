@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ImageCropper</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="title">ImageCropper</string>
+    <string name="rotate">Rotate</string>
+    <string name="reset">Reset</string>
+    <string name="crop">Crop</string>
+    
+</resources>

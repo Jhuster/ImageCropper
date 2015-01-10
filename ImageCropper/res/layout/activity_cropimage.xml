@@ -1,0 +1,108 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_dark">
+        
+    <com.ticktick.imagecropper.CropImageView
+        android:id="@+id/CropWindow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+    
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/back"          
+            android:textColor="@android:color/white"    
+            android:padding="10dp"    
+            android:layout_margin="10dp"                 
+            android:textSize="20sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/view_click_selector"
+            android:onClick="onClickBack"/>
+    
+        <TextView
+            android:id="@+id/TitleView"
+            android:layout_width="wrap_content"        
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/title"
+            android:textColor="@android:color/white"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textSize="20sp"                         
+            android:gravity="center_vertical"/>
+    
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/save"
+            android:textColor="@android:color/white" 
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/view_click_selector"
+            android:onClick="onClickSave"/>    
+
+    </RelativeLayout>
+
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp">
+                
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"            
+            android:text="@string/rotate"
+            android:textColor="@android:color/white"  
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/view_click_selector"
+            android:onClick="onClickRotate"/>
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/reset"
+            android:textColor="@android:color/white"  
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/view_click_selector"
+            android:onClick="onClickReset"/>
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/crop"
+            android:textColor="@android:color/white"  
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/view_click_selector"
+            android:onClick="onClickCrop"/>
+        
+    </LinearLayout>
+        
+</FrameLayout>

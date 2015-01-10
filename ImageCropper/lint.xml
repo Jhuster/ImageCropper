@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ClickableViewAccessibility">
+        <ignore path="src/com/ticktick/imagecropper/CropImageView.java" />
+        <ignore path="src/com/ticktick/juncropimage/CropImageView.java" />
+        <ignore path="src/com/ticktick/juncropimage/CropWindow.java" />
+    </issue>
+    <issue id="DrawAllocation">
+        <ignore path="src/com/ticktick/juncropimage/CropImageView.java" />
+    </issue>
+</lint>
