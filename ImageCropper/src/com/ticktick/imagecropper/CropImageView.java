@@ -34,9 +34,9 @@ import com.ticktick.imagecropper.TouchEventDetector.TouchEventListener;
 
 public class CropImageView extends View implements TouchEventListener {
     
-	private static final float CROP_WINDOW_PAINTER_WIDTH = 3.0f;
-	private static final float OUTSIDE_WINDOW_PAINTER_WIDTH = 1.0f;
-	private static final float DRAG_ICONS_RADIUS = 10.0f;
+    private static final float CROP_WINDOW_PAINTER_WIDTH = 3.0f;
+    private static final float OUTSIDE_WINDOW_PAINTER_WIDTH = 1.0f;
+    private static final float DRAG_ICONS_RADIUS = 10.0f;
 	
     private Paint mCropPainter;
     private Paint mOutsidePainter;
@@ -53,9 +53,9 @@ public class CropImageView extends View implements TouchEventListener {
     private TouchEventDetector mTouchEventDetector = new TouchEventDetector();
     
     private Drawable[] mDragDrawables = { getResources().getDrawable(R.drawable.ic_crop_drag_x), 
-    		getResources().getDrawable(R.drawable.ic_crop_drag_y),
-    		getResources().getDrawable(R.drawable.ic_crop_drag_x),
-    		getResources().getDrawable(R.drawable.ic_crop_drag_y)};    
+            getResources().getDrawable(R.drawable.ic_crop_drag_y),
+            getResources().getDrawable(R.drawable.ic_crop_drag_x),
+            getResources().getDrawable(R.drawable.ic_crop_drag_y)};    
 
     public CropImageView(Context context) {
         super(context);    
@@ -69,12 +69,12 @@ public class CropImageView extends View implements TouchEventListener {
     
     public void destroy() {
     	if( mCropBitmap != null && !mCropBitmap.getBitmap().isRecycled() ) {
-    		mCropBitmap.recycle();
-    		mCropBitmap = null;
+            mCropBitmap.recycle();
+            mCropBitmap = null;
     	}
     	if( mOriginBitmap !=null && !mOriginBitmap.isRecycled() ) {
-    		mOriginBitmap.recycle();
-    		mOriginBitmap = null;
+            mOriginBitmap.recycle();
+            mOriginBitmap = null;
     	}
     }
     
@@ -113,16 +113,16 @@ public class CropImageView extends View implements TouchEventListener {
 
     public Bitmap getCropBitmap() {
     	if( mCropBitmap != null ) {
-    		return mCropBitmap.getBitmap();
+            return mCropBitmap.getBitmap();
     	}
     	return null;
     }
     
     public void rotate() {
     	if( mCropBitmap != null ) {
-    		mCropBitmap.setRotation(mCropBitmap.getRotation()+90);
-        	mIsCropParamChanged = true;
-        	invalidate();
+            mCropBitmap.setRotation(mCropBitmap.getRotation()+90);
+            mIsCropParamChanged = true;
+            invalidate();
     	}    	
     }
        
@@ -130,8 +130,8 @@ public class CropImageView extends View implements TouchEventListener {
     	
     	if( mCropBitmap != null ) {
     		
-    		float cropWidth  = mCropWindow.width()/mScaleRate;
-    		float cropHeight = mCropWindow.height()/mScaleRate;
+            float cropWidth  = mCropWindow.width()/mScaleRate;
+            float cropHeight = mCropWindow.height()/mScaleRate;
         	
             Rect cropRect = mCropWindow.getWindowRect(mScaleRate); 
             RectF dstRect = new RectF(0, 0,cropWidth,cropHeight);
@@ -141,7 +141,7 @@ public class CropImageView extends View implements TouchEventListener {
             cropMatrix.preConcat(mCropBitmap.getRotateMatrix());
                         
             Bitmap cropped = Bitmap.createBitmap((int)cropWidth,(int)cropHeight,Bitmap.Config.RGB_565);
-        	Canvas canvas = new Canvas(cropped);
+            Canvas canvas = new Canvas(cropped);
             canvas.drawBitmap(mCropBitmap.getBitmap(),cropMatrix, null);
             
             replace(cropped,0);
@@ -150,14 +150,14 @@ public class CropImageView extends View implements TouchEventListener {
     
     public void reset() {
     	if( mCropBitmap == null ) {
-    		return;
+            return;
     	}
     	replace(mOriginBitmap,0);
     }
     
     private void replace( Bitmap bitmap, int degrees ) {
     	if( mCropBitmap != null && mCropBitmap.getBitmap() != mOriginBitmap ) {
-    		mCropBitmap.recycle();
+            mCropBitmap.recycle();
     	}
     	mCropBitmap = new RotateBitmap(bitmap,degrees);
     	mIsCropParamChanged = true;
@@ -176,8 +176,7 @@ public class CropImageView extends View implements TouchEventListener {
     	mMarix.postScale(mScaleRate,mScaleRate);
     	mMarix.postTranslate(offsetX,offsetY);
     	
-    	RectF border = new RectF(offsetX,offsetY,offsetX+bitmap.getWidth()*mScaleRate,
-    			offsetY+bitmap.getHeight()*mScaleRate );    
+    	RectF border = new RectF(offsetX,offsetY,offsetX+bitmap.getWidth()*mScaleRate,offsetY+bitmap.getHeight()*mScaleRate );    
     	
     	CropParam param = new CropParam();
     	param.mAspectX = mCropParam.mAspectX;
@@ -195,16 +194,15 @@ public class CropImageView extends View implements TouchEventListener {
     private void drawOutsideCropArea( Canvas canvas ) {
     	RectF[] rects = mCropWindow.getOutWindowRects();
     	for( RectF rect : rects ) {
-    		canvas.drawRect(rect,mOutsidePainter);
+            canvas.drawRect(rect,mOutsidePainter);
     	}        
     }
     
     private void drawDragIcons(Canvas canvas) {       
     	Point[] points = mCropWindow.getDragPoints();
     	for( int i=0; i<points.length; i++ ) {
-    		mDragDrawables[i].setBounds((int)(points[i].x-DRAG_ICONS_RADIUS),(int)(points[i].y-DRAG_ICONS_RADIUS), 
-        			(int)(points[i].x+DRAG_ICONS_RADIUS),(int)(points[i].y+DRAG_ICONS_RADIUS));
-    		mDragDrawables[i].draw(canvas); 				
+            mDragDrawables[i].setBounds((int)(points[i].x-DRAG_ICONS_RADIUS),(int)(points[i].y-DRAG_ICONS_RADIUS), (int)(points[i].x+DRAG_ICONS_RADIUS),(int)(points[i].y+DRAG_ICONS_RADIUS));
+            mDragDrawables[i].draw(canvas); 				
     	}    	
     }  
 
@@ -227,24 +225,24 @@ public class CropImageView extends View implements TouchEventListener {
     
     public boolean onTouchEvent(MotionEvent event) {
     	if( mCropBitmap != null ) {
-    		return mTouchEventDetector.onTouchEvent(event);	
+            return mTouchEventDetector.onTouchEvent(event);	
     	}    	
     	return true;
     }
         
-	@Override
-	public void onTouchMoved(float srcX, float srcY, float deltaX, float deltaY) {		
-		mCropWindow.onTouchMoved(deltaX, deltaY);
-		invalidate();				
-	}
+    @Override
+    public void onTouchMoved(float srcX, float srcY, float deltaX, float deltaY) {		
+	mCropWindow.onTouchMoved(deltaX, deltaY);
+	invalidate();				
+    }
 
-	@Override
-	public void onTouchDown(float x, float y) {
-		mCropWindow.onTouchDown(x, y);
-	}
+    @Override
+    public void onTouchDown(float x, float y) {
+	mCropWindow.onTouchDown(x, y);
+    }
 
-	@Override
-	public void onTouchUp(float x, float y) {
-		mCropWindow.onTouchUp();
-	}   
+    @Override
+    public void onTouchUp(float x, float y) {
+	mCropWindow.onTouchUp();
+    }   
 }

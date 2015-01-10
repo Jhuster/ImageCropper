@@ -20,17 +20,17 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	public static final int REQUEST_CODE_PICK_IMAGE = 0x1;
+    public static final int REQUEST_CODE_PICK_IMAGE = 0x1;
     public static final int REQUEST_CODE_IMAGE_CROPPER  = 0x2;
     public static final String CROPPED_IMAGE_FILEPATH = "/sdcard/test.jpg";    
-	private ImageView mImageView;
+    private ImageView mImageView;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		mImageView = (ImageView)findViewById(R.id.CroppedImageView);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	mImageView = (ImageView)findViewById(R.id.CroppedImageView);
+    }
 
     public void onClickButton(View v) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -67,22 +67,22 @@ public class MainActivity extends Activity {
             return;
         }
         if( requestCode == REQUEST_CODE_PICK_IMAGE ) {
-        	startCropImage(data.getData());
+            startCropImage(data.getData());
         }
         else if( requestCode == REQUEST_CODE_IMAGE_CROPPER ) {
         	
-        	Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);
-        	
-        	InputStream in = null;
-        	try {
-				in = getContentResolver().openInputStream(croppedUri);
-				Bitmap b = BitmapFactory.decodeStream(in);
-				mImageView.setImageBitmap(b);
-				Toast.makeText(this,"Crop success，saved at"+CROPPED_IMAGE_FILEPATH,Toast.LENGTH_LONG).show();
-			} 
-        	catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}        	
+            Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);
+	
+            InputStream in = null;
+            try {
+		in = getContentResolver().openInputStream(croppedUri);
+		Bitmap b = BitmapFactory.decodeStream(in);
+		mImageView.setImageBitmap(b);
+		Toast.makeText(this,"Crop success，saved at"+CROPPED_IMAGE_FILEPATH,Toast.LENGTH_LONG).show();
+            } 
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }        	
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
