@@ -1,6 +1,9 @@
 ImageCropper
 =========
-- A custom image cropper library for Android
+A custom image cropper library for Android
+
+Features
+=========
 - Support moving/scale the crop window freely by finger
 - Support set a fixed crop window size
 - Support set the max crop window size
@@ -10,7 +13,7 @@ ImageCropper
 
 ScreenShot
 =========
-![Screenshot](https://github.com/JHuster/ImageCropper/ImageCropper.png)
+![Screenshot](https://raw.githubusercontent.com/Jhuster/ImageCropper/master/ImageCropper.jpg)
 
 Building 
 =========
@@ -26,8 +29,9 @@ Declare the CropImageActivity in the main project's AndroidManifest.xml
 ```
 
 Declare the write_external_storage permission in the main project's AndroidManifest.xml
+```xml
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+```
 
 Call these methods to run CropImage Activity
 ```java
@@ -90,7 +94,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
     if (requestCode == REQUEST_CODE_CROP_PICTURE ) {
-        Uri croppedUri = data.getExtras().getParcelable(CropIntent.OUTPUT_IMAGE_PATH);	
+        Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);	
         InputStream in = null;
 	try {
             in = getContentResolver().openInputStream(croppedUri);
