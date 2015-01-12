@@ -19,12 +19,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -36,7 +37,7 @@ public class CropImageActivity extends Activity {
     private Bitmap mBitmap;
     private Uri mInputPath  = null;
     private Uri mOutputPath = null;
-    private CropImageView mCropImageView;
+    private CropImageView mCropImageView;    
         
     public static class CropParam {
         public int mAspectX = 0;
@@ -75,7 +76,7 @@ public class CropImageActivity extends Activity {
             finish();
             return;
         }               
-        mCropImageView.initialize(mBitmap,getCropParam(intent));
+        mCropImageView.initialize(mBitmap,getCropParam(intent));        
     }
     
     @Override
@@ -93,9 +94,7 @@ public class CropImageActivity extends Activity {
     }
     
     public void onClickSave(View v) {
-        saveBitmap(mCropImageView.getCropBitmap());
-        setResult(RESULT_OK, new Intent().putExtra(MediaStore.EXTRA_OUTPUT,mOutputPath));
-        finish();
+    	new SaveImageTask().execute(mCropImageView.getCropBitmap());               
     }
 
     public void onClickRotate(View v) {
@@ -110,15 +109,40 @@ public class CropImageActivity extends Activity {
     public void onClickCrop(View v) {
         mCropImageView.crop();
     }
-        
-    private void saveBitmap(Bitmap croppedImage) {
-        
-        if( mOutputPath != null ) {
-            OutputStream outputStream = null;
+    
+    private class SaveImageTask extends AsyncTask<Bitmap,Void,Boolean> {
+
+    	private ProgressDialog mProgressDailog;
+    	
+    	private SaveImageTask() {
+    		mProgressDailog = new ProgressDialog(CropImageActivity.this);
+            mProgressDailog.setCanceledOnTouchOutside(false);
+            mProgressDailog.setCancelable(false);
+    	}
+    	
+    	@Override
+        protected void onPreExecute() {
+    		mProgressDailog.setTitle(getString(R.string.save));
+    		mProgressDailog.setMessage(getString(R.string.saving));
+    		mProgressDailog.show();
+    	}
+    	
+    	@Override
+        protected void onPostExecute(Boolean result) {
+            if( mProgressDailog.isShowing() ) {
+            	mProgressDailog.dismiss();
+            }
+            setResult(RESULT_OK, new Intent().putExtra(MediaStore.EXTRA_OUTPUT,mOutputPath));
+            finish();
+    	}
+    	
+		@Override
+		protected Boolean doInBackground(Bitmap... params) {
+			OutputStream outputStream = null;
             try {
                 outputStream = getContentResolver().openOutputStream(mOutputPath);
                 if (outputStream != null) {
-                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+                	params[0].compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
                 }
             } 
             catch (IOException e) {
@@ -127,10 +151,31 @@ public class CropImageActivity extends Activity {
             finally {
                 closeSilently(outputStream);
             }
-        }
+            
+			return Boolean.TRUE;
+		}
+    	
     }
     
-    private Bitmap loadBitmap( Uri uri ) {
+    protected Bitmap loadBitmap(  Uri uri ) {
+
+    	Bitmap bitmap = null;
+    	InputStream in = null;
+    	try {
+            in = getContentResolver().openInputStream(uri);
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+    	}
+    	catch (FileNotFoundException e) {
+            
+        } 
+        catch (IOException e) {
+                
+        }
+    	return bitmap;
+    }
+    
+    protected Bitmap loadBitmapWithInSample( Uri uri ) {
             
         final int MAX_VIEW_SIZE = 1024;
             
@@ -164,7 +209,7 @@ public class CropImageActivity extends Activity {
         return null;
     }
         
-    public static void closeSilently(Closeable c) {
+    protected static void closeSilently(Closeable c) {
         if (c == null) return;
         try {
             c.close();

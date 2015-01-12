@@ -29,9 +29,9 @@ public class CropWindow {
     private static final int TOUCH_GROW_BOTTOM_EDGE = (1 << 4);
     private static final int TOUCH_MOVE_WINDOW      = (1 << 5);
 	
-    private static final float BORDER_THRESHOLD   = 20f;    
-    private static final float DEFAULT_MIN_WDITH  = 20f;
-    private static final float DEFAULT_MIN_HEIGHT = 20f;
+    private static final float BORDER_THRESHOLD   = 30f;    
+    private static final float DEFAULT_MIN_WDITH  = 30f;
+    private static final float DEFAULT_MIN_HEIGHT = 30f;
     
     private float mLeft;
     private float mTop;	
@@ -135,12 +135,12 @@ public class CropWindow {
     private RectF getGrowBorder() {		
 	RectF border = new RectF(mImageRect);
 	if( mCropParam.mMaxOutputX != 0 ) {
-		border.left  = Math.max(right()-mCropParam.mMaxOutputX,mImageRect.left);
-		border.right = Math.min(left()+mCropParam.mMaxOutputX,mImageRect.right);
+            border.left  = Math.max(right()-mCropParam.mMaxOutputX,mImageRect.left);
+            border.right = Math.min(left()+mCropParam.mMaxOutputX,mImageRect.right);
 	}
 	if( mCropParam.mMaxOutputY != 0 ) {
-		border.top = Math.max(bottom()-mCropParam.mMaxOutputY,mImageRect.top);
-		border.bottom = Math.min(top()+mCropParam.mMaxOutputY,mImageRect.bottom);
+            border.top = Math.max(bottom()-mCropParam.mMaxOutputY,mImageRect.top);
+            border.bottom = Math.min(top()+mCropParam.mMaxOutputY,mImageRect.bottom);
 	}
 	return border;
     }

@@ -8,5 +8,7 @@
     <string name="rotate">Rotate</string>
     <string name="reset">Reset</string>
     <string name="crop">Crop</string>
+    <string name="loading">Loading</string>
+    <string name="saving">Saving</string>
     
 </resources>
