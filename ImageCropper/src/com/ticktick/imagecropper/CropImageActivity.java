@@ -115,16 +115,16 @@ public class CropImageActivity extends Activity {
     	private ProgressDialog mProgressDailog;
     	
     	private SaveImageTask() {
-    		mProgressDailog = new ProgressDialog(CropImageActivity.this);
+            mProgressDailog = new ProgressDialog(CropImageActivity.this);
             mProgressDailog.setCanceledOnTouchOutside(false);
             mProgressDailog.setCancelable(false);
     	}
     	
     	@Override
         protected void onPreExecute() {
-    		mProgressDailog.setTitle(getString(R.string.save));
-    		mProgressDailog.setMessage(getString(R.string.saving));
-    		mProgressDailog.show();
+            mProgressDailog.setTitle(getString(R.string.save));
+            mProgressDailog.setMessage(getString(R.string.saving));
+            mProgressDailog.show();
     	}
     	
     	@Override
@@ -136,9 +136,9 @@ public class CropImageActivity extends Activity {
             finish();
     	}
     	
-		@Override
-		protected Boolean doInBackground(Bitmap... params) {
-			OutputStream outputStream = null;
+        @Override
+        protected Boolean doInBackground(Bitmap... params) {
+            OutputStream outputStream = null;
             try {
                 outputStream = getContentResolver().openOutputStream(mOutputPath);
                 if (outputStream != null) {
@@ -152,8 +152,8 @@ public class CropImageActivity extends Activity {
                 closeSilently(outputStream);
             }
             
-			return Boolean.TRUE;
-		}
+            return Boolean.TRUE;
+       }
     	
     }
     
