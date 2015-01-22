@@ -1,7 +1,7 @@
 /*
  *  COPYRIGHT NOTICE  
  *  Copyright (C) 2015, ticktick <lujun.hust@gmail.com>
- *  http://ticktick.blog.51cto.com/
+ *  https://github.com/Jhuster/ImageCropper
  *   
  *  @license under the Apache License, Version 2.0 
  *
