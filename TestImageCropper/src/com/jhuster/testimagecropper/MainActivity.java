@@ -1,11 +1,11 @@
-package com.ticktick.testimagecropper;
+package com.jhuster.testimagecropper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import com.ticktick.imagecropper.CropImageActivity;
-import com.ticktick.imagecropper.CropIntent;
+import com.jhuster.imagecropper.CropImageActivity;
+import com.jhuster.imagecropper.CropIntent;
 
 import android.app.Activity;
 import android.content.Intent;

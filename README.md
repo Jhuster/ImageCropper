@@ -25,7 +25,7 @@ Usage
 =========
 Declare the CropImageActivity in the main project's AndroidManifest.xml
 ```xml
-<activity android:name="com.ticktick.imagecropper.CropImageActivity"/>
+<activity android:name="com.jhuster.imagecropper.CropImageActivity"/>
 ```
 
 Declare the write_external_storage permission in the main project's AndroidManifest.xml

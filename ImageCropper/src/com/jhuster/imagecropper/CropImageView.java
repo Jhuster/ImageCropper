@@ -1,6 +1,6 @@
 /*
  *  COPYRIGHT NOTICE  
- *  Copyright (C) 2015, ticktick <lujun.hust@gmail.com>
+ *  Copyright (C) 2015, Jhuster <lujun.hust@gmail.com>
  *  https://github.com/Jhuster/ImageCropper
  *   
  *  @license under the Apache License, Version 2.0 
@@ -9,11 +9,12 @@
  *  @brief   Draw ImageView and CropWindow
  *  
  *  @version 1.0     
- *  @author  ticktick
+ *  @author  Jhuster
  *  @date    2015/01/09    
  */
-package com.ticktick.imagecropper;
+package com.jhuster.imagecropper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -28,9 +29,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.ticktick.imagecropper.CropImageActivity.CropParam;
-import com.ticktick.imagecropper.TouchEventDetector.TouchEventListener;
+import com.jhuster.imagecropper.CropImageActivity.CropParam;
+import com.jhuster.imagecropper.TouchEventDetector.TouchEventListener;
 
 public class CropImageView extends View implements TouchEventListener {
     
@@ -223,6 +223,7 @@ public class CropImageView extends View implements TouchEventListener {
         super.onDraw(canvas);
     }
     
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event) {
     	if( mCropBitmap != null ) {
             return mTouchEventDetector.onTouchEvent(event);	

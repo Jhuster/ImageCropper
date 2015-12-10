@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@android:color/background_dark">
         
-    <com.ticktick.imagecropper.CropImageView
+    <com.jhuster.imagecropper.CropImageView
         android:id="@+id/CropWindow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

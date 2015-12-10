@@ -1,6 +1,6 @@
 /*
  *  COPYRIGHT NOTICE  
- *  Copyright (C) 2015, ticktick <lujun.hust@gmail.com>
+ *  Copyright (C) 2015, Jhuster <lujun.hust@gmail.com>
  *  https://github.com/Jhuster/ImageCropper
  *   
  *  @license under the Apache License, Version 2.0 
@@ -9,10 +9,10 @@
  *  @brief   Image Cropper Activity
  *  
  *  @version 1.0     
- *  @author  ticktick
+ *  @author  Jhuster
  *  @date    2015/01/09    
  */
-package com.ticktick.imagecropper;
+package com.jhuster.imagecropper;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;

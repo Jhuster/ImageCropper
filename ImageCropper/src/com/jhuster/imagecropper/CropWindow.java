@@ -1,6 +1,6 @@
 /*
  *  COPYRIGHT NOTICE  
- *  Copyright (C) 2015, ticktick <lujun.hust@gmail.com>
+ *  Copyright (C) 2015, Jhuster <lujun.hust@gmail.com>
  *  https://github.com/Jhuster/ImageCropper
  *   
  *  @license under the Apache License, Version 2.0 
@@ -9,12 +9,12 @@
  *  @brief   Manage the position and size of crop window
  *  
  *  @version 1.0     
- *  @author  ticktick
+ *  @author  Jhuster
  *  @date    2015/01/09    
  */
-package com.ticktick.imagecropper;
+package com.jhuster.imagecropper;
 
-import com.ticktick.imagecropper.CropImageActivity.CropParam;
+import com.jhuster.imagecropper.CropImageActivity.CropParam;
 
 import android.graphics.Point;
 import android.graphics.Rect;
