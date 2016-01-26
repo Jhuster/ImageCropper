@@ -13,13 +13,23 @@ Features
 
 ScreenShot
 =========
-![Screenshot](https://raw.githubusercontent.com/Jhuster/ImageCropper/master/ImageCropper.jpg)
+<img src="ImageCropper.jpg" width="800" height="1280" />
 
-Building 
+Dependency 
 =========
-- It's a android library project with eclipse
-- You should import the project into the eclipse with your main project
-- Config the Library Reference to ImageCropper in the main project's properties
+- It's a android library project with Android Studio.
+- Pls import the `lib` project belong with your main project
+
+- Add dependencies in the main project's build.gradle
+
+```groovy
+compile project(':lib')
+```
+
+- Add module in the settings.gradle
+```groovy
+include ':lib'
+```
 
 Usage
 =========
