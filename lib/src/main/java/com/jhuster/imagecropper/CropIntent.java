@@ -32,33 +32,33 @@ public class CropIntent {
     
     private Intent mCropIntent = new Intent();
     
-    public void setImagePath( String filepath ) {
+    public void setImagePath(String filepath) {
     	setImagePath(Uri.fromFile(new File(filepath)));
     }
     
-    public void setImagePath( Uri uri ) {
+    public void setImagePath(Uri uri) {
     	mCropIntent.setData(uri);
     }
     
-    public void setOutputPath( String filepath ) {
+    public void setOutputPath(String filepath) {
     	setOutputPath(Uri.fromFile(new File(filepath)));
     }
     
-    public void setOutputPath( Uri uri) {
+    public void setOutputPath(Uri uri) {
     	mCropIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
     }
     
-    public void setAspect( int x, int y ) {
+    public void setAspect(int x, int y) {
     	mCropIntent.putExtra(ASPECT_X, x);
     	mCropIntent.putExtra(ASPECT_Y, y);
     }
     
-    public void setOutputSize( int x, int y ) {
+    public void setOutputSize(int x, int y) {
     	mCropIntent.putExtra(OUTPUT_X, x);
     	mCropIntent.putExtra(OUTPUT_Y, y);
     }
     
-    public void setMaxOutputSize( int x, int y ) {
+    public void setMaxOutputSize(int x, int y) {
     	mCropIntent.putExtra(MAX_OUTPUT_X, x);
     	mCropIntent.putExtra(MAX_OUTPUT_Y, y);
     }

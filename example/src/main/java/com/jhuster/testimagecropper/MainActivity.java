@@ -20,9 +20,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    public static final int REQUEST_CODE_PICK_IMAGE = 0x1;
-    public static final int REQUEST_CODE_IMAGE_CROPPER  = 0x2;
-    public static final String CROPPED_IMAGE_FILEPATH = "/sdcard/test.jpg";    
+    public static final String CROPPED_IMAGE_FILEPATH = "/sdcard/cropped.jpg";
+
     private ImageView mImageView;
 	
     @Override
@@ -33,32 +32,29 @@ public class MainActivity extends Activity {
     }
 
     public void onClickButton(View v) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,REQUEST_CODE_PICK_IMAGE);
+        startCropImage();
     }
 
-    public void startCropImage( Uri uri) {
-    	Intent intent = new Intent(this,CropImageActivity.class);
-    	intent.setData(uri);
-    	intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(new File(CROPPED_IMAGE_FILEPATH)));
-    	//intent.putExtra("aspectX",2);
-    	//intent.putExtra("aspectY",1);
-    	//intent.putExtra("outputX",320);
-    	//intent.putExtra("outputY",240);
-    	//intent.putExtra("maxOutputX",640);
-    	//intent.putExtra("maxOutputX",480);
-    	startActivityForResult(intent, REQUEST_CODE_IMAGE_CROPPER);
-    }
-    
-    public void startCropImageByCropIntent( Uri uri) {    	
-    	CropIntent intent = new CropIntent();
-    	intent.setImagePath(uri);
-    	intent.setOutputPath(CROPPED_IMAGE_FILEPATH);
-    	//intent.setAspect(2, 1);
-    	//intent.setOutputSize(480,320);
-    	//intent.setMaxOutputSize(480,320);
-        startActivityForResult(intent.getIntent(this), REQUEST_CODE_IMAGE_CROPPER);
+    private void startCropImage() {
+
+        // Create a CropIntent
+        CropIntent intent = new CropIntent();
+
+        // Set the source image filepath/URL and output filepath/URL (Optional)
+        //intent.setImagePath("/sdcard/source.jpg");
+        intent.setOutputPath(CROPPED_IMAGE_FILEPATH);
+
+        // Set a fixed crop window size (Optional)
+        //intent.setOutputSize(640,480);
+
+        // set the max crop window size (Optional)
+        //intent.setMaxOutputSize(800,600);
+
+        // Set a fixed crop window's width/height aspect (Optional)
+        //intent.setAspect(3,2);
+
+        // start ImageCropper activity with certain request code and listen for result
+        startActivityForResult(intent.getIntent(this), 0);
     }
 
     @Override
@@ -66,16 +62,10 @@ public class MainActivity extends Activity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            startCropImage(data.getData());
-        }
-        else if (requestCode == REQUEST_CODE_IMAGE_CROPPER) {
-        	
+        if (requestCode == 0) {
             Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);
-	
-            InputStream in = null;
             try {
-		        in = getContentResolver().openInputStream(croppedUri);
+                InputStream in = getContentResolver().openInputStream(croppedUri);
 		        Bitmap b = BitmapFactory.decodeStream(in);
 		        mImageView.setImageBitmap(b);
 		        Toast.makeText(this,"Crop success，saved at"+CROPPED_IMAGE_FILEPATH,Toast.LENGTH_LONG).show();

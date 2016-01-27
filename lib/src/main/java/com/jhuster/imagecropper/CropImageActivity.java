@@ -15,6 +15,7 @@
 package com.jhuster.imagecropper;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +32,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class CropImageActivity extends Activity {
 
@@ -61,31 +63,53 @@ public class CropImageActivity extends Activity {
         if (extras == null) {
             setResult(RESULT_CANCELED);
             return;
-        }               
-        mInputPath  = intent.getData();
+        }
+
         mOutputPath = extras.getParcelable(MediaStore.EXTRA_OUTPUT);
-        if (mInputPath == null || mOutputPath == null) {
-            setResult(RESULT_CANCELED);
-            finish();
+        if (mOutputPath == null) {
+            String defaultPath = getCacheDir().getPath() + "tmp.jpg";
+            mOutputPath = Uri.fromFile(new File(defaultPath));
+        }
+
+        mInputPath = intent.getData();
+        if (mInputPath == null) {
+            startPickImage();
             return;
         }
-    
+
         mBitmap = loadBitmap(mInputPath);
         if (mBitmap == null) {
             setResult(RESULT_CANCELED);
             finish();
             return;
-        }               
-        mCropImageView.initialize(mBitmap,getCropParam(intent));        
+        }
+
+        mCropImageView.initialize(mBitmap,getCropParam(intent));
     }
     
     @Override
-    protected void onDestroy() {            
-        if (mBitmap != null) {
-            mBitmap.recycle();      
-        }
+    protected void onDestroy() {
+        mBitmap = null;
         mCropImageView.destroy();               
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == 0) {
+            mInputPath = data.getData();
+            mBitmap = loadBitmap(mInputPath);
+            if (mBitmap == null) {
+                setResult(RESULT_CANCELED);
+                finish();
+                return;
+            }
+            mCropImageView.initialize(mBitmap,getCropParam(getIntent()));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
     
     public void onClickBack(View v) {
@@ -159,22 +183,21 @@ public class CropImageActivity extends Activity {
     protected Bitmap loadBitmap(Uri uri) {
 
     	Bitmap bitmap = null;
-    	InputStream in = null;
     	try {
-            in = getContentResolver().openInputStream(uri);
+            InputStream in = getContentResolver().openInputStream(uri);
             bitmap = BitmapFactory.decodeStream(in);
             in.close();
     	}
     	catch (FileNotFoundException e) {
-            
+            Toast.makeText(this,"Can't found image file !",Toast.LENGTH_LONG).show();
         } 
         catch (IOException e) {
-                
+            Toast.makeText(this,"Can't load source image !",Toast.LENGTH_LONG).show();
         }
     	return bitmap;
     }
     
-    protected Bitmap loadBitmapWithInSample( Uri uri) {
+    protected Bitmap loadBitmapWithInSample(Uri uri) {
             
         final int MAX_VIEW_SIZE = 1024;
             
@@ -235,5 +258,11 @@ public class CropImageActivity extends Activity {
             }
         }               
         return params;
+    }
+
+    protected void startPickImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,0);
     }
 }

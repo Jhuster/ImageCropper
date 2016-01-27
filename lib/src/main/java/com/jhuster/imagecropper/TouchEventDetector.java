@@ -26,16 +26,16 @@ public class TouchEventDetector {
     private boolean mIsDetectStarted = false;
 
     public interface TouchEventListener {
-        public void onTouchDown( float x, float y);
-        public void onTouchUp( float x, float y);
-        public void onTouchMoved( float srcX, float srcY, float deltaX, float deltaY);
+        public void onTouchDown(float x, float y);
+        public void onTouchUp(float x, float y);
+        public void onTouchMoved(float srcX, float srcY, float deltaX, float deltaY);
     }
 
-    public void setTouchEventListener( TouchEventListener listener) {
+    public void setTouchEventListener(TouchEventListener listener) {
         mTouchEventListener = listener;
     }
 	
-    public boolean onTouchEvent( MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
 	
 	    if (mTouchEventListener == null || event.getPointerCount() != 1) {
             mIsDetectStarted = false;

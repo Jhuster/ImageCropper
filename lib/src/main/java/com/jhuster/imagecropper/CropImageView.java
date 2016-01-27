@@ -93,19 +93,19 @@ public class CropImageView extends View implements TouchEventListener {
         mOutsidePainter.setStrokeWidth(OUTSIDE_WINDOW_PAINTER_WIDTH);
     }
     
-    public void initialize( Bitmap bitmap) {
+    public void initialize(Bitmap bitmap) {
     	initialize(bitmap,0,new CropParam());
     }
     
-    public void initialize( Bitmap bitmap, CropParam param) {
+    public void initialize(Bitmap bitmap, CropParam param) {
     	initialize(bitmap,0,param);
     }
     
-    public void initialize( Bitmap bitmap, int degrees) {
+    public void initialize(Bitmap bitmap, int degrees) {
     	initialize(bitmap,degrees,new CropParam());
     }    
     
-    public void initialize( Bitmap bitmap, int degrees, CropParam param) {
+    public void initialize(Bitmap bitmap, int degrees, CropParam param) {
     	mCropParam = param;
     	mOriginBitmap = bitmap;    	
     	replace(bitmap,degrees);
@@ -155,7 +155,7 @@ public class CropImageView extends View implements TouchEventListener {
     	replace(mOriginBitmap,0);
     }
     
-    private void replace( Bitmap bitmap, int degrees) {
+    private void replace(Bitmap bitmap, int degrees) {
     	if (mCropBitmap != null && mCropBitmap.getBitmap() != mOriginBitmap) {
             mCropBitmap.recycle();
     	}
@@ -164,7 +164,7 @@ public class CropImageView extends View implements TouchEventListener {
     	invalidate();
     }
     
-    private void calculateCropParams( RotateBitmap bitmap) {
+    private void calculateCropParams(RotateBitmap bitmap) {
 
     	mScaleRate = Math.min((float)getWidth()/bitmap.getWidth(),(float)getHeight()/bitmap.getHeight());
     	    	
@@ -191,16 +191,16 @@ public class CropImageView extends View implements TouchEventListener {
     	mTouchEventDetector.setTouchEventListener(this);    	
     }
     
-    private void drawOutsideCropArea( Canvas canvas) {
+    private void drawOutsideCropArea(Canvas canvas) {
     	RectF[] rects = mCropWindow.getOutWindowRects();
-    	for( RectF rect : rects) {
+    	for (RectF rect : rects) {
             canvas.drawRect(rect,mOutsidePainter);
     	}        
     }
     
     private void drawDragIcons(Canvas canvas) {       
     	Point[] points = mCropWindow.getDragPoints();
-    	for( int i=0; i<points.length; i++) {
+    	for (int i=0; i<points.length; i++) {
             mDragDrawables[i].setBounds((int)(points[i].x-DRAG_ICONS_RADIUS),(int)(points[i].y-DRAG_ICONS_RADIUS), (int)(points[i].x+DRAG_ICONS_RADIUS),(int)(points[i].y+DRAG_ICONS_RADIUS));
             mDragDrawables[i].draw(canvas); 				
     	}    	

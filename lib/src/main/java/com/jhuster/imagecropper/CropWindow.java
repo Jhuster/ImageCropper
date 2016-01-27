@@ -41,7 +41,7 @@ public class CropWindow {
     private CropParam mCropParam;
     private int mTouchMode = TOUCH_NONE;		
 		
-    public CropWindow( RectF imageRect, CropParam params) {
+    public CropWindow(RectF imageRect, CropParam params) {
 		
         mWidth  = Math.min(imageRect.width(),imageRect.height())*4/5;
         mHeight = mWidth;
@@ -103,7 +103,7 @@ public class CropWindow {
         return new RectF(left(), top(), right(), bottom());
     }
 	
-    public Rect getWindowRect( float scale) {
+    public Rect getWindowRect(float scale) {
         int width   = (int)(width()/scale);
         int height  = (int)(height()/scale);
         int xoffset = (int)((left()-mImageRect.left)/scale);
@@ -153,7 +153,7 @@ public class CropWindow {
         mTop  = (bottom() >= mImageRect.bottom) ? mImageRect.bottom-mHeight : top();
     }
 	
-    public boolean onTouchDown( float x, float y) {
+    public boolean onTouchDown(float x, float y) {
 		
 	    RectF window = getWindowRectF();
 	
@@ -192,7 +192,7 @@ public class CropWindow {
         return true;
     }
 
-    public boolean onTouchMoved( float deltaX, float deltaY) {
+    public boolean onTouchMoved(float deltaX, float deltaY) {
 			
 	    if (mTouchMode == TOUCH_NONE) {
             return false;
