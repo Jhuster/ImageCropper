@@ -53,49 +53,23 @@ Call these methods to run CropImage Activity
 private void startCropImage() {
 
     // Create a CropIntent
-    CropIntent intent = new CropIntent(); 
-    
-    // Set the source image filepath/URL and output filepath/URL (Required)
-    intent.setImagePath("/sdcard/source.jpg");
+    CropIntent intent = new CropIntent();
+
+    // Set the source image filepath/URL and output filepath/URL (Optional)
+    //intent.setImagePath("/sdcard/source.jpg");
     intent.setOutputPath("/sdcard/cropped.jpg");
-    
-    // Set a fixed crop window size (Optional) 
-    intent.setOutputSize(640,480);
 
-    // set the max crop window size (Optional) 
-    intent.setMaxOutputSize(800,600);
+    // Set a fixed crop window size (Optional)
+    //intent.setOutputSize(640,480);
 
-    // Set a fixed crop window's width/height aspect (Optional) 
-    intent.setAspect(3,2);
-    
+    // set the max crop window size (Optional)
+    //intent.setMaxOutputSize(800,600);
+
+    // Set a fixed crop window's width/height aspect (Optional)
+    //intent.setAspect(3,2);
+
     // start ImageCropper activity with certain request code and listen for result
     startActivityForResult(intent.getIntent(this), 0);
-}
-
-//2. Create the intent by manual
-private void startCropImage() {
-
-    // Create explicit intent
-    Intent intent = new Intent(this, CropImageActivity.class);
-        
-    // Set the source image filepath/URL and output filepath/URL (Required)
-    intent.setData(Uri.fromFile(new File("/sdcard/source.jpg")));
-    intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(new File("/sdcard/cropped.jpg")));
-    
-    // Set a fixed crop window size (Optional) 
-    intent.putExtra("outputX",640);
-    intent.putExtra("outputY",480);
-
-    // set the max crop window size (Optional) 
-    intent.putExtra("maxOutputX",800);
-    intent.putExtra("maxOutputY",600);
-
-    // Set a fixed crop window's width/height aspect (Optional) 
-    intent.putExtra("aspectX",3);
-    intent.putExtra("aspectY",2);
-    
-    // start ImageCropper activity with certain request code and listen for result
-    startActivityForResult(intent, 0);
 }
 ```
 
@@ -109,16 +83,19 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
     if (requestCode == 0) {
-        Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);	
+        startCropImage(data.getData());
+    }
+    else {
+        Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);
         InputStream in = null;
-	try {
+        try {
             in = getContentResolver().openInputStream(croppedUri);
             Bitmap b = BitmapFactory.decodeStream(in);
             //mImageView.setImageBitmap(b);
-        } 
-	catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
-        }     
+        }
     }
     super.onActivityResult(requestCode, resultCode, data);
 }
