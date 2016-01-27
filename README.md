@@ -1,6 +1,6 @@
 ImageCropper
 =========
-A custom image cropper library for Android
+A custom image cropper library on Android
 
 Features
 =========
@@ -17,18 +17,21 @@ ScreenShot
 
 Dependency 
 =========
-- It's a android library project with Android Studio.
-- Pls import the `lib` project belong with your main project
-
-- Add dependencies in the main project's build.gradle
-
+1. Add it in your root build.gradle at the end of repositories:
 ```groovy
-compile project(':lib')
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
 ```
 
-- Add module in the settings.gradle
+2. Add the dependency
 ```groovy
-include ':lib'
+allprojects {
+    compile 'com.github.Jhuster:ImageCropper:v1.1.0'
+}
 ```
 
 Usage
@@ -65,7 +68,7 @@ private void startCropImage() {
     intent.setAspect(3,2);
     
     // start ImageCropper activity with certain request code and listen for result
-    startActivityForResult(intent.getIntent(this), REQUEST_CODE_CROP_PICTURE);
+    startActivityForResult(intent.getIntent(this), 0);
 }
 //2. Create the intent by manual
 private void startCropImage() {
@@ -90,7 +93,7 @@ private void startCropImage() {
     intent.putExtra("aspectY",2);
     
     // start ImageCropper activity with certain request code and listen for result
-    startActivityForResult(intent, REQUEST_CODE_CROP_PICTURE);
+    startActivityForResult(intent, 0);
 }
 ```
 
@@ -103,13 +106,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         return;
     }
 
-    if (requestCode == REQUEST_CODE_CROP_PICTURE ) {
+    if (requestCode == 0 ) {
         Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);	
         InputStream in = null;
 	try {
             in = getContentResolver().openInputStream(croppedUri);
             Bitmap b = BitmapFactory.decodeStream(in);
-            mImageView.setImageBitmap(b);
+            //mImageView.setImageBitmap(b);
         } 
 	catch (FileNotFoundException e) {
             e.printStackTrace();
