@@ -30,7 +30,7 @@ allprojects {
 (2) Add the dependency
 ```groovy
 allprojects {
-    compile 'com.github.Jhuster:ImageCropper:v1.1.0'
+    compile 'com.github.Jhuster:ImageCropper:v1.1.1'
 }
 ```
 
@@ -83,9 +83,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
     if (requestCode == 0) {
-        startCropImage(data.getData());
-    }
-    else {
         Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);
         InputStream in = null;
         try {
