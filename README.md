@@ -9,7 +9,7 @@ Features
 - Support set the max crop window size
 - Support set a fixed crop window's width/height aspect
 - Support rotate the image when cropping
-- Easy to integrate to your app
+- Easy to integrate into your app
 
 ScreenShot
 =========
@@ -17,7 +17,7 @@ ScreenShot
 
 Dependency 
 =========
-1. Add it in your root build.gradle at the end of repositories:
+(1) Add it in your root build.gradle at the end of repositories:
 ```groovy
 allprojects {
     repositories {
@@ -27,7 +27,7 @@ allprojects {
 }
 ```
 
-2. Add the dependency
+(2) Add the dependency
 ```groovy
 allprojects {
     compile 'com.github.Jhuster:ImageCropper:v1.1.0'
@@ -47,6 +47,7 @@ Declare the write_external_storage permission in the main project's AndroidManif
 ```
 
 Call these methods to run CropImage Activity
+
 ```java
 //1. Using the CropIntent to help build the start intent
 private void startCropImage() {
@@ -70,6 +71,7 @@ private void startCropImage() {
     // start ImageCropper activity with certain request code and listen for result
     startActivityForResult(intent.getIntent(this), 0);
 }
+
 //2. Create the intent by manual
 private void startCropImage() {
 
@@ -106,7 +108,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         return;
     }
 
-    if (requestCode == 0 ) {
+    if (requestCode == 0) {
         Uri croppedUri = data.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT);	
         InputStream in = null;
 	try {
