@@ -14,12 +14,6 @@
  */
 package com.jhuster.imagecropper;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -34,13 +28,20 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class CropImageActivity extends Activity {
 
     private Bitmap mBitmap;
-    private Uri mInputPath  = null;
+    private Uri mInputPath = null;
     private Uri mOutputPath = null;
-    private CropImageView mCropImageView;    
-        
+    private CropImageView mCropImageView;
+
     public static class CropParam {
         public int mAspectX = 0;
         public int mAspectY = 0;
@@ -49,15 +50,15 @@ public class CropImageActivity extends Activity {
         public int mMaxOutputX = 0;
         public int mMaxOutputY = 0;
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);           
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_cropimage);
-        mCropImageView = (CropImageView)findViewById(R.id.CropWindow);
-            
+        mCropImageView = (CropImageView) findViewById(R.id.CropWindow);
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras == null) {
@@ -84,13 +85,13 @@ public class CropImageActivity extends Activity {
             return;
         }
 
-        mCropImageView.initialize(mBitmap,getCropParam(intent));
+        mCropImageView.initialize(mBitmap, getCropParam(intent));
     }
-    
+
     @Override
     protected void onDestroy() {
         mBitmap = null;
-        mCropImageView.destroy();               
+        mCropImageView.destroy();
         super.onDestroy();
     }
 
@@ -107,100 +108,96 @@ public class CropImageActivity extends Activity {
                 finish();
                 return;
             }
-            mCropImageView.initialize(mBitmap,getCropParam(getIntent()));
+            mCropImageView.initialize(mBitmap, getCropParam(getIntent()));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    
+
     public void onClickBack(View v) {
         setResult(RESULT_CANCELED);
         finish();
     }
-    
+
     public void onClickSave(View v) {
-    	new SaveImageTask().execute(mCropImageView.getCropBitmap());               
+        new SaveImageTask().execute(mCropImageView.getCropBitmap());
     }
 
     public void onClickRotate(View v) {
         mCropImageView.rotate();
         mCropImageView.invalidate();
     }
-    
+
     public void onClickReset(View v) {
         mCropImageView.reset();
     }
-    
+
     public void onClickCrop(View v) {
         mCropImageView.crop();
     }
-    
-    private class SaveImageTask extends AsyncTask<Bitmap,Void,Boolean> {
 
-    	private ProgressDialog mProgressDailog;
-    	
-    	private SaveImageTask() {
+    private class SaveImageTask extends AsyncTask<Bitmap, Void, Boolean> {
+
+        private ProgressDialog mProgressDailog;
+
+        private SaveImageTask() {
             mProgressDailog = new ProgressDialog(CropImageActivity.this);
             mProgressDailog.setCanceledOnTouchOutside(false);
             mProgressDailog.setCancelable(false);
-    	}
-    	
-    	@Override
+        }
+
+        @Override
         protected void onPreExecute() {
             mProgressDailog.setTitle(getString(R.string.save));
             mProgressDailog.setMessage(getString(R.string.saving));
             mProgressDailog.show();
-    	}
-    	
-    	@Override
+        }
+
+        @Override
         protected void onPostExecute(Boolean result) {
             if (mProgressDailog.isShowing()) {
-            	mProgressDailog.dismiss();
+                mProgressDailog.dismiss();
             }
-            setResult(RESULT_OK, new Intent().putExtra(MediaStore.EXTRA_OUTPUT,mOutputPath));
+            setResult(RESULT_OK, new Intent().putExtra(MediaStore.EXTRA_OUTPUT, mOutputPath));
             finish();
-    	}
-    	
+        }
+
         @Override
         protected Boolean doInBackground(Bitmap... params) {
             OutputStream outputStream = null;
             try {
                 outputStream = getContentResolver().openOutputStream(mOutputPath);
                 if (outputStream != null) {
-                	params[0].compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+                    params[0].compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
                 }
-            } 
-            catch (IOException e) {
-            
-            }
-            finally {
+            } catch (IOException e) {
+
+            } finally {
                 closeSilently(outputStream);
             }
-            
+
             return Boolean.TRUE;
-       }
+        }
     }
-    
+
     protected Bitmap loadBitmap(Uri uri) {
 
-    	Bitmap bitmap = null;
-    	try {
+        Bitmap bitmap = null;
+        try {
             InputStream in = getContentResolver().openInputStream(uri);
             bitmap = BitmapFactory.decodeStream(in);
             in.close();
-    	}
-    	catch (FileNotFoundException e) {
-            Toast.makeText(this,"Can't found image file !",Toast.LENGTH_LONG).show();
-        } 
-        catch (IOException e) {
-            Toast.makeText(this,"Can't load source image !",Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "Can't found image file !", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(this, "Can't load source image !", Toast.LENGTH_LONG).show();
         }
-    	return bitmap;
+        return bitmap;
     }
-    
+
     protected Bitmap loadBitmapWithInSample(Uri uri) {
-            
+
         final int MAX_VIEW_SIZE = 1024;
-            
+
         InputStream in = null;
         try {
             in = getContentResolver().openInputStream(uri);
@@ -208,10 +205,10 @@ public class CropImageActivity extends Activity {
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(in, null, o);
             in.close();
-            
+
             int scale = 1;
             if (o.outHeight > MAX_VIEW_SIZE || o.outWidth > MAX_VIEW_SIZE) {
-                scale = (int) Math.pow(2,(int) Math.round(Math.log(MAX_VIEW_SIZE/(double) Math.max(o.outHeight, o.outWidth))/Math.log(0.5)));
+                scale = (int) Math.pow(2, (int) Math.round(Math.log(MAX_VIEW_SIZE / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
             }
 
             BitmapFactory.Options o2 = new BitmapFactory.Options();
@@ -221,25 +218,22 @@ public class CropImageActivity extends Activity {
             in.close();
 
             return b;
-        } 
-        catch (FileNotFoundException e) {
-                
-        } 
-        catch (IOException e) {
-                
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
         }
         return null;
     }
-        
+
     protected static void closeSilently(Closeable c) {
         if (c == null) return;
         try {
             c.close();
-        } 
-        catch (Throwable t) {
+        } catch (Throwable t) {
         }
     }
-    
+
     public static CropParam getCropParam(Intent intent) {
         CropParam params = new CropParam();
         Bundle extras = intent.getExtras();
@@ -256,13 +250,13 @@ public class CropImageActivity extends Activity {
                 params.mMaxOutputX = extras.getInt(CropIntent.MAX_OUTPUT_X);
                 params.mMaxOutputY = extras.getInt(CropIntent.MAX_OUTPUT_Y);
             }
-        }               
+        }
         return params;
     }
 
     protected void startPickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent,0);
+        startActivityForResult(intent, 0);
     }
 }
